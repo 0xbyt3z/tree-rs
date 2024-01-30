@@ -11,9 +11,8 @@ fn main() {
     let mut arguments_with_values = HashMap::new();
     arguments_with_values = extract_arguments(args, arguments_with_values.clone());
 
-    let files = get_files(arguments_with_values.get("-p").expect("Invalid path"));
-
-
+    let files = get_files(arguments_with_values.get("p").expect("Invalid path"));
+    
 }
 
 fn extract_arguments(mut arg: Vec<String>, mut hashmap: HashMap<String, String>)-> HashMap<String,String>{
@@ -21,6 +20,9 @@ fn extract_arguments(mut arg: Vec<String>, mut hashmap: HashMap<String, String>)
     arg.remove(0);
     for flag in arg.clone(){
         if utils::does_flag_expect_a_value(flag.clone()) && arg.len() > 1{
+            //remove the - prefix for ease in usage
+            let mut flag = flag.replace("-","");
+
             hashmap.insert(String::from(flag), arg.get(1).unwrap().clone());
             arg.drain(0..2);
         }

@@ -10,9 +10,9 @@ fn main() {
     let args : Vec<String>= env::args().collect();
     let mut arguments_with_values = HashMap::new();
     arguments_with_values = extract_arguments(args, arguments_with_values.clone());
-    // let files = get_files();
 
-    println!("{:?}",arguments_with_values);
+    let files = get_files(arguments_with_values.get("-p").expect("Invalid path"));
+
 
 }
 
@@ -29,8 +29,8 @@ fn extract_arguments(mut arg: Vec<String>, mut hashmap: HashMap<String, String>)
 }
 
 
-fn get_files() -> Result<(), io::Error>{
-    for entry in WalkDir::new(".") {
+fn get_files(path:&String) -> Result<(), io::Error>{
+    for entry in WalkDir::new(path) {
         println!("{}", entry?.path().display());
     }
     Ok(())
